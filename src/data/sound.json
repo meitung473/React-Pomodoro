@@ -1,0 +1,26 @@
+[
+  {
+    "name": "beep",
+    "path": "../assests/audio/beep.wav"
+  },
+  {
+    "name": "facility-alarm",
+    "path": "../assests/audio/facility-alarm.wav"
+  },
+  {
+    "name": "gong",
+    "path": "../assests/audio/gong.wav"
+  },
+  {
+    "name": "racing",
+    "path": "../assests/audio/racing.wav"
+  },
+  {
+    "name": "rooster",
+    "path": "../assests/audio/rooster.wav"
+  },
+  {
+    "name": "sci-fi",
+    "path": "../assests/audio/sci-fi.wav"
+  }
+]

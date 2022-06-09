@@ -1,0 +1,20 @@
+{
+  "short_name": "Pomodoro 番茄鐘",
+  "name": "Pomodoro 番茄鐘 - 工作的好幫手",
+  "icons": [
+    {
+      "src": "icon@48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "icon@96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
