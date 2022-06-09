@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+    <g>
+        <g>
+            <line x2="12" y2="12" transform="translate(5 8)" fill="none" stroke="#fff" stroke-linecap="round"
+                stroke-width="8" />
+            <line y1="12" x2="12" transform="translate(5 22)" fill="none" stroke="#fff" stroke-linecap="round"
+                stroke-width="8" />
+        </g>
+        <g>
+            <line x2="12" y2="12" transform="translate(25 8)" fill="none" stroke="#fff" stroke-linecap="round"
+                stroke-width="8" />
+            <line y1="12" x2="12" transform="translate(25 22)" fill="none" stroke="#fff" stroke-linecap="round"
+                stroke-width="8" />
+        </g>
+    </g>
+</svg>

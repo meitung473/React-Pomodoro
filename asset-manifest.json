@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.js": "/React-Pomodoro/static/js/main.699e2cf7.js",
+    "static/js/787.28cb0dcd.chunk.js": "/React-Pomodoro/static/js/787.28cb0dcd.chunk.js",
+    "service-worker.js": "/React-Pomodoro/service-worker.js",
+    "index.html": "/React-Pomodoro/index.html",
+    "static/media/Alarm.svg": "/React-Pomodoro/static/media/Alarm.5e35def7e6be932cf61a6ae10a6e3554.svg",
+    "static/media/Analysis.svg": "/React-Pomodoro/static/media/Analysis.27ec61c332265261adb2c0644bd607d5.svg",
+    "static/media/NewTask.svg": "/React-Pomodoro/static/media/NewTask.a6193b174d35cb1a7c562567a8e21b0d.svg",
+    "static/media/TimerNextTask.svg": "/React-Pomodoro/static/media/TimerNextTask.35f2c137c48a67c8ca10b68d809e936e.svg",
+    "static/media/Task.svg": "/React-Pomodoro/static/media/Task.d387fba60f8194b0bd64ea7a50f2ca9a.svg",
+    "static/media/DeleteTask.svg": "/React-Pomodoro/static/media/DeleteTask.f17e493191f3d489a803fa12402c832f.svg",
+    "static/media/Pause.svg": "/React-Pomodoro/static/media/Pause.7d1c9b8265118014641c929d5fde58e1.svg",
+    "static/media/Cancel.svg": "/React-Pomodoro/static/media/Cancel.6018ea16a81f2732a9a22e2e0f11dd8d.svg",
+    "static/media/Order.svg": "/React-Pomodoro/static/media/Order.4d4436035c9fba871911de9209b8b476.svg",
+    "static/media/Start.svg": "/React-Pomodoro/static/media/Start.deaeeab337373881d7521da3eca68ec4.svg",
+    "static/media/TimerPause.svg": "/React-Pomodoro/static/media/TimerPause.8d5e998230ce07d5f31152e5a762f73b.svg",
+    "static/media/Check.svg": "/React-Pomodoro/static/media/Check.901fb99c99107789af6ddf52ef8a3549.svg",
+    "static/media/TimerPlay.svg": "/React-Pomodoro/static/media/TimerPlay.c0f2404bb8989afb0723cd1862ac5760.svg",
+    "main.699e2cf7.js.map": "/React-Pomodoro/static/js/main.699e2cf7.js.map",
+    "787.28cb0dcd.chunk.js.map": "/React-Pomodoro/static/js/787.28cb0dcd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.699e2cf7.js"
+  ]
+}
