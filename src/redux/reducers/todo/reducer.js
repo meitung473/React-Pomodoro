@@ -10,17 +10,8 @@ import {
     UPDATE_TODO_DATE,
 } from "./actionType";
 
-// let todoId = 1;
 const initalState = {
-    todos: [
-        // {
-        //     id: 1,
-        //     content: "test",
-        //     isCompeleted: false,
-        //     tomatoNum: 3,
-        //     createdAt: "2022-06-07",
-        // },
-    ],
+    todos: [],
     nowEditing: null,
 };
 export default function todoReducer(state = initalState, action) {

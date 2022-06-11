@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { Alarmoption, Page } from "@components";
 import { useDispatch, useSelector } from "react-redux";
@@ -82,19 +82,17 @@ const AlarmPage = () => {
 
     const dispatch = useDispatch();
     const isMd = useMediaQuery(br.md);
-    const sound = useRef();
 
-    const handleChange = useCallback(
-        (group, id, cb) => {
-            dispatch(setAlarm(group, id));
-            sound.current.src = alarmPackage.find((_, i) => id === i).path;
-            if (alarm.HasAlarm && !alarm.alarmrang) {
-                sound.current.play();
-            }
-            cb(id);
-        },
-        [alarm.HasAlarm, dispatch, alarm.alarmrang]
-    );
+    const audioref = useRef();
+    const handleChange = (group, id, cb) => {
+        dispatch(setAlarm(group, id));
+        audioref.current.src =
+            process.env.PUBLIC_URL + alarmPackage.find((_, i) => id === i).path;
+        if (alarm.HasAlarm && !alarm.alarmrang) {
+            audioref.current.play();
+        }
+        cb(id);
+    };
 
     return (
         <Page>
@@ -116,7 +114,7 @@ const AlarmPage = () => {
             <StyleBody>
                 <Title alarmstatus={alarm.HasAlarm}>工作結束鬧鐘</Title>
                 <RadioGroup>
-                    {alarmPackage.map(({ name }, i) => {
+                    {alarmPackage.map(({ name, path }, i) => {
                         if (i === taskAlarm)
                             return (
                                 <Alarmoption
@@ -171,7 +169,8 @@ const AlarmPage = () => {
                     })}
                 </RadioGroup>
             </StyleBody>
-            <audio ref={sound} onEnded={() => (sound.current.src = null)} />
+
+            <audio ref={audioref} preload="metadata" />
         </Page>
     );
 };

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { selectorAlarm } from "@redux/selector";
+import { useEffect, useRef } from "react";
 
 const RadioItem = styled.label`
     cursor: pointer;
@@ -37,6 +38,7 @@ const Alarmoption = ({
     callback,
 }) => {
     const alarm = useSelector(selectorAlarm);
+
     return (
         <RadioItem $alarmstatus={alarm.HasAlarm} $select={$fill}>
             <input

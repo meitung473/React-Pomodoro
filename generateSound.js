@@ -1,12 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 const filedirname = "data";
-let directory_name = "public/assests/audio";
+let directory_name = "public/assets/audio";
 
 let filenames = fs.readdirSync(directory_name);
 const data = filenames.reduce((p, n) => {
     const name = n.replace(path.extname(n), "");
-    const relativepath = "../assests/audio/" + n;
+    const relativepath = "/assets/audio/" + n;
     const data = {
         name,
         path: relativepath,
@@ -15,7 +15,7 @@ const data = filenames.reduce((p, n) => {
     return p;
 }, []);
 
-if (!fs.existsSync("views")) {
+if (!fs.existsSync(filedirname)) {
     fs.mkdir("src/" + filedirname, (err) => {
         if (err) return err;
         generatefile();

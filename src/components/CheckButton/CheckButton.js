@@ -42,6 +42,7 @@ const CheckButton = ({ isCompeleted, id, initialTimer, createdAt }) => {
                 if (!isCompeleted) {
                     // 矯正不是當日新增
                     if (createdAt !== today) {
+                        dispatch(updateTodoDate(id));
                         dispatch(updateChart("totaltask", 1));
                     }
                     dispatch(updateChart(dataTypes.compeletedTaskNum, 1));

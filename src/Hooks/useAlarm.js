@@ -13,9 +13,11 @@ function useAlarm() {
 
     // 播放
     const Playalarm = () => {
-        audioref.current.src = audiopackage.find(
-            (_, i) => i === alarmdata.alarmType[timer.timermode]
-        ).path;
+        audioref.current.src =
+            process.env.PUBLIC_URL +
+            audiopackage.find(
+                (_, i) => i === alarmdata.alarmType[timer.timermode]
+            ).path;
         dispatch(toggleAlarm(true));
         audioref.current.play();
     };
