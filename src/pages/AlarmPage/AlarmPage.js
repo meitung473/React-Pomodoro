@@ -76,7 +76,6 @@ const StyleBody = styled(Page.SubBody)`
 const AlarmPage = () => {
     const alarm = useSelector(selectorAlarm);
 
-    // 預設
     const [taskAlarm, setTaskAlarm] = useState(alarm.alarmType.task);
     const [restAlarm, setRestAlarm] = useState(alarm.alarmType.rest);
 
@@ -89,6 +88,7 @@ const AlarmPage = () => {
         audioref.current.src =
             process.env.PUBLIC_URL + alarmPackage.find((_, i) => id === i).path;
         if (alarm.HasAlarm && !alarm.alarmrang) {
+            audioref.current.load();
             audioref.current.play();
         }
         cb(id);
@@ -123,7 +123,7 @@ const AlarmPage = () => {
                                     index={i}
                                     content={name}
                                     handleChange={handleChange}
-                                    callback={setTaskAlarm}
+                                    stateSetter={setTaskAlarm}
                                     $fill
                                 />
                             );
@@ -169,8 +169,7 @@ const AlarmPage = () => {
                     })}
                 </RadioGroup>
             </StyleBody>
-
-            <audio ref={audioref} preload="metadata" />
+            <audio ref={audioref} />
         </Page>
     );
 };

@@ -1,10 +1,10 @@
-import styled from "styled-components";
 import { useEffect, useState, useMemo, useContext } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
+import { createSelector } from "@reduxjs/toolkit";
 import { selectorTodo } from "@redux/selector";
 import { orderTodo } from "@reducers/todo";
 
+import styled from "styled-components";
 import { theme } from "@constants/theme";
 import { ModalContext } from "@constants/context";
 
@@ -12,7 +12,6 @@ import { Page, Todo } from "@components";
 import { ADDMODAL } from "@components/Modal/ModalType";
 import { ReactComponent as OrderIcon } from "@images/Order.svg";
 import { ReactComponent as NewTaskIcon } from "@images/NewTask.svg";
-import { createSelector } from "@reduxjs/toolkit";
 
 const OrderButton = styled(OrderIcon)`
     [data-name*="Polygon"] {

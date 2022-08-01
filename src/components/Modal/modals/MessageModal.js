@@ -1,4 +1,5 @@
 import { Modal } from "../..";
+import PropTypes from "prop-types";
 
 function MessageModal({ message }) {
     return (
@@ -13,3 +14,7 @@ function MessageModal({ message }) {
 }
 
 export default MessageModal;
+
+MessageModal.propTypes = {
+    message: PropTypes.object,
+};

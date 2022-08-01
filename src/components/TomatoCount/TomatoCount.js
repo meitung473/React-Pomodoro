@@ -2,6 +2,7 @@ import { MODETIME, TASKMODE } from "@constants/constants";
 import { selectorTimer } from "@redux/selector";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const TomatoSlotContainer = styled.div`
     display: flex;
@@ -85,3 +86,7 @@ const TomatoCount = ({ fill }) => {
     );
 };
 export default TomatoCount;
+
+TomatoCount.propTypes = {
+    fill: PropTypes.number,
+};

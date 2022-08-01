@@ -1,14 +1,14 @@
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { createSelector } from "@reduxjs/toolkit";
+import PropTypes from "prop-types";
+import { selectorTimer } from "@redux/selector";
+import { toggleTodo, updateTodoDate } from "@reducers/todo";
 import { updateChart } from "@reducers/chart";
+
 import { ReactComponent as CheckIcon } from "@images/Check.svg";
 import { dataTypes } from "@pages/AnalysisPage/type";
-import { toggleTodo } from "@reducers/todo";
-import { selectorTimer } from "@redux/selector";
-import { createSelector } from "@reduxjs/toolkit";
 import { today } from "@pages/AnalysisPage/calculate";
-import { updateTodoDate } from "@redux/reducers/todo/action";
-import { useSelector } from "react-redux";
 
 const Checkbox = styled.div`
     height: 12px;
@@ -62,3 +62,10 @@ const CheckButton = ({ isCompeleted, id, initialTimer, createdAt }) => {
     );
 };
 export default CheckButton;
+
+CheckButton.propTypes = {
+    isCompeleted: PropTypes.bool,
+    id: PropTypes.string,
+    initialTimer: PropTypes.func,
+    createdAt: PropTypes.string,
+};

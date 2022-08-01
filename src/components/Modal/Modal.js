@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { createContext, useContext } from "react";
 import ReactDOM from "react-dom";
 
+import PropTypes from "prop-types";
+
 const Overlay = styled.div`
     position: absolute;
     top: 0;
@@ -126,3 +128,13 @@ Modal.DefaultFooter = DefaultFooter;
 Modal.ComfirmFooter = ComfirmFooter;
 
 export default Modal;
+
+Modal.propTypes = {
+    close: PropTypes.func,
+    show: PropTypes.bool,
+    event: PropTypes.func,
+    children: PropTypes.element,
+};
+DefaultFooter.propTypes = {
+    callback: PropTypes.func,
+};

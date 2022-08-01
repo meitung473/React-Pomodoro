@@ -5,6 +5,7 @@ import {
     editTodo,
     setnoweditTodo,
     orderTodo,
+    updateTodoDate,
 } from "./action";
 
 import todoReducer from "./reducer";
@@ -17,4 +18,5 @@ export {
     setnoweditTodo,
     orderTodo,
     todoReducer,
+    updateTodoDate,
 };

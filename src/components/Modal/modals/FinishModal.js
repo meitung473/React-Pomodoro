@@ -17,7 +17,6 @@ function FinishModal() {
     const finish = () => {
         dispatch(toggleTodo(timer.currentOnTaskId));
         dispatch(updateChart(dataTypes.compeletedTaskNum, 1));
-        // dispatch(updateChart("totaltask", 1));
         initialTimer(null);
         closeModal();
     };

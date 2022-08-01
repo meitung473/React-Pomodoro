@@ -10,6 +10,8 @@ import {
     TimeScale,
 } from "chart.js";
 import { useSelector } from "react-redux";
+import PropsTypes from "prop-types";
+
 import { custom_canvas_background_color, options, style } from "./setting";
 import { data2Chart, weekDays } from "@pages/AnalysisPage/calculate";
 import { Tabs } from "@pages/AnalysisPage/type";
@@ -68,3 +70,7 @@ const Chart = ({ tab }) => {
     );
 };
 export default Chart;
+
+Chart.propTypes = {
+    tab: PropsTypes.string.isRequired,
+};
