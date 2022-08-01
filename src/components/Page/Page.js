@@ -1,6 +1,7 @@
 import { br } from "@constants/device";
 import { createContext } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const Container = styled.aside`
     background-color: #fff;
@@ -83,3 +84,7 @@ Page.Title = Title;
 Page.ButtonGroup = ButtonGroup;
 
 export default Page;
+
+Page.propTypes = {
+    children: PropTypes.array,
+};

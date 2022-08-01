@@ -1,5 +1,7 @@
-import { adjustOpacity } from "@constants/theme";
 import styled from "styled-components";
+import PropTypes from "prop-types";
+
+import { adjustOpacity } from "@constants/theme";
 
 const Container = styled.div`
     display: flex;
@@ -56,4 +58,15 @@ const AnalysisTable = ({ format, content }) => {
         </Container>
     );
 };
+
 export default AnalysisTable;
+
+TextItem.propTypes = {
+    unit: PropTypes.string,
+    description: PropTypes.string,
+    value: PropTypes.number,
+};
+AnalysisTable.propTypes = {
+    format: PropTypes.array,
+    content: PropTypes.array,
+};

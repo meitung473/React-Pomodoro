@@ -92,17 +92,16 @@ const Timer = () => {
     useInterval(
         () => {
             if (currenttime <= 0) {
-                // 算入 task 時間
                 if (timer.timermode === TASKMODE) {
-                    // 這裡是定值，
-                    let min2hr =
+                    const min2hr =
                         Math.round((MODETIME[TASKMODE] / 60) * 100) / 100;
                     dispatch(updateChart(dataTypes.tomatoNum, 1));
                     dispatch(updateChart(dataTypes.focusTime, min2hr));
                 }
 
-                dispatch(switchTimerONOFF(false));
                 Playalarm();
+
+                dispatch(switchTimerONOFF(false));
                 nextRound();
                 return;
             }

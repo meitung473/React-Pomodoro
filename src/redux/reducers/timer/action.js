@@ -5,7 +5,6 @@ import {
     SET_CURRENTONTASKID,
     UPDATE_TIMERTOMATONUM,
     SET_TIMERTOMATONUM,
-    RESET_TIMER,
     UPDATE_CURRENTTIME,
 } from "./actionType";
 
@@ -56,8 +55,4 @@ export function updatecurrentTime(currentTime) {
         payload: currentTime,
     };
 }
-export function resetTimer() {
-    return {
-        type: UPDATE_TIMERTOMATONUM,
-    };
-}
+//

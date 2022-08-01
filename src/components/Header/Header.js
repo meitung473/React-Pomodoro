@@ -1,8 +1,11 @@
 import { createContext, useContext, useState, useMemo } from "react";
-import styled from "styled-components";
-import { br } from "@constants/device";
 import { Link, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+
+import { br } from "@constants/device";
 import { Pages } from "@constants/Pages";
+
 const Container = styled.ul`
     background-color: ${({ theme }) => theme.primary.Default};
     display: flex;
@@ -111,3 +114,12 @@ Header.ListItem = ListLink;
 Header.Indicator = Indicator;
 
 export default Header;
+
+Header.propTypes = {
+    children: PropTypes.array,
+};
+ListLink.propTypes = {
+    children: PropTypes.element,
+    to: PropTypes.string,
+    name: PropTypes.string,
+};

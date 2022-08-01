@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { selectorAlarm } from "@redux/selector";
-import { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
 const RadioItem = styled.label`
     cursor: pointer;
@@ -35,7 +35,7 @@ const Alarmoption = ({
     handleChange,
     $fill,
     index,
-    callback,
+    stateSetter,
 }) => {
     const alarm = useSelector(selectorAlarm);
 
@@ -47,12 +47,21 @@ const Alarmoption = ({
                 disabled={!alarm.HasAlarm}
                 onChange={() => {
                     if (!alarm.HasAlarm) return;
-                    handleChange(group, index, callback);
+                    handleChange(group, index, stateSetter);
                 }}
             />
             {content}
         </RadioItem>
     );
+};
+
+Alarmoption.propTypes = {
+    group: PropTypes.string,
+    content: PropTypes.string,
+    handleChange: PropTypes.func,
+    $fill: PropTypes.bool,
+    index: PropTypes.number,
+    stateSetter: PropTypes.func,
 };
 
 export default Alarmoption;

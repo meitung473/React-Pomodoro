@@ -1,4 +1,6 @@
 import styled, { css } from "styled-components";
+import PropTypes from "prop-types";
+
 const Triangle = css`
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
@@ -28,3 +30,10 @@ const OrderButton = ({ $isfirst, $islast, handleOrder, thisorder }) => {
     );
 };
 export default OrderButton;
+
+OrderButton.propTypes = {
+    $isfirst: PropTypes.bool,
+    $islast: PropTypes.bool,
+    handleOrder: PropTypes.func,
+    thisorder: PropTypes.number,
+};

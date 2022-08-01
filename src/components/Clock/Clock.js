@@ -1,8 +1,10 @@
-import styled from "styled-components";
-import { selectorTimer, selectorTodo } from "../../redux/selector";
-import { useSelector } from "react-redux";
 import { useMemo } from "react";
-import { TASKMODE } from "@constants/constants";
+import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+
+import { selectorTimer, selectorTodo } from "@redux/selector";
+import { MODETIME, TASKMODE } from "@constants/constants";
 
 const SVGComponent = styled.svg`
     max-width: 100%;
@@ -76,7 +78,10 @@ const Clock = ({ currentLine }) => {
     const todos = useSelector(selectorTodo);
 
     const setClock = useMemo(() => {
-        let time = timer.cachecurrentTime >= 0 ? timer.cachecurrentTime : 25;
+        let time =
+            timer.cachecurrentTime >= 0
+                ? timer.cachecurrentTime
+                : MODETIME.task;
         let min = parseInt(time / 60, 10);
         let sec = parseInt(time % 60, 10);
         return {
@@ -138,3 +143,7 @@ const Clock = ({ currentLine }) => {
     );
 };
 export default Clock;
+
+Clock.propTypes = {
+    currentLine: PropTypes.number,
+};

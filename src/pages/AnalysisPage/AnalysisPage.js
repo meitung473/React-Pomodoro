@@ -41,14 +41,15 @@ const StyleBody = styled(Page.SubBody)`
 const AnalysisPage = () => {
     const [tab, setTab] = useState(Tabs.TOMATO);
     const data = useSelector(selectorChart);
-    const [content, setContent] = useState(() => tab2Data(data, tab));
+    const [content, setContent] = useState(tab2Data(data, tab));
     const handleChange = (e) => {
         setTab(() => e.target.id);
     };
-    // 當 tab 改變的時候，我也改變資料，再 render 一次改變畫面 : bugfix
+
     useEffect(() => {
-        setContent(() => tab2Data(data, tab));
-    }, [tab]);
+        setContent(tab2Data(data, tab));
+    }, [tab, data]);
+
     const isMd = useMediaQuery(br.md);
     return (
         <Page>

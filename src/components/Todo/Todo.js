@@ -6,7 +6,7 @@ import {
     useState,
 } from "react";
 import styled from "styled-components";
-
+import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { selectorEditingTodo, selectorTimer } from "@redux/selector";
 import { deleteTodo, editTodo, setnoweditTodo } from "@redux/reducers/todo";
@@ -14,12 +14,12 @@ import { setTomatoNum } from "@redux/reducers/timer";
 
 import { br } from "@constants/device";
 import { TimerContext } from "@constants/context";
+import { adjustOpacity } from "@constants/theme";
 
 import { ReactComponent as Pause } from "@images/Pause.svg";
 import { ReactComponent as Start } from "@images/Start.svg";
 import { ReactComponent as Delete } from "@images/DeleteTask.svg";
 import { CheckButton, OrderButton } from "..";
-import { adjustOpacity } from "@constants/theme";
 
 const List = styled.ul`
     overflow-x: hidden;
@@ -133,7 +133,6 @@ function Todo({ children }) {
 }
 function Tomato() {
     const { id, tomatoNum, isCompeleted } = useContext(TodoContext);
-    // 是不是在任務上?
     return (
         <TomatoConatiner isCompeleted={isCompeleted}>
             {Array.from({ length: 5 }).map((e, i) => {
@@ -288,7 +287,6 @@ function EditContent() {
                 seteditcontent(e.target.value);
             }}
             onBlur={() => {
-                console.log(editcontent);
                 if (editcontent) {
                     dispatch(editTodo(id, editcontent));
                     setisEdit(false);
@@ -304,3 +302,31 @@ function EditContent() {
 Todo.InCompeletedItem = InCompeletedItem;
 Todo.CompeletedItem = CompeletedItem;
 export default Todo;
+
+Todo.propTypes = {
+    children: PropTypes.array,
+};
+InCompeletedItem.propTypes = {
+    todo: PropTypes.shape({
+        id: PropTypes.string,
+        content: PropTypes.string,
+        tomatoNum: PropTypes.number,
+        isCompeleted: PropTypes.bool,
+        createdAt: PropTypes.string,
+    }),
+    isOrder: PropTypes.bool,
+    isfirst: PropTypes.bool,
+    islast: PropTypes.bool,
+    handleOrder: PropTypes.func,
+    thisorder: PropTypes.number,
+};
+
+CompeletedItem.propTypes = {
+    todo: PropTypes.shape({
+        id: PropTypes.string,
+        content: PropTypes.string,
+        tomatoNum: PropTypes.number,
+        isCompeleted: PropTypes.bool,
+        createdAt: PropTypes.string,
+    }),
+};
