@@ -11,7 +11,6 @@ import useModal from "@Hooks/useModal";
 import { ModalContext, TimerContext } from "@constants/context";
 import { GlobalStyle } from "@constants/globalStyle";
 import { theme } from "@constants/theme";
-import { Pages } from "@constants/Pages";
 
 function App() {
     const {
@@ -23,10 +22,11 @@ function App() {
         initialTimer,
     } = useClock();
 
-    const { openModal, closeModal, modalName, EventModal, show } = useModal();
+    // const { openModal, closeModal, modalName, EventModal, show } = useModal();
 
     return (
         <ThemeProvider theme={theme}>
+            <GlobalStyle />
             <TimerContext.Provider
                 value={{
                     currenttime,
@@ -37,37 +37,16 @@ function App() {
                     nextRound,
                 }}
             >
-                <ModalContext.Provider value={{ openModal, closeModal }}>
-                    <HashRouter>
-                        <GlobalStyle />
-                        <Header>
-                            {Pages.map((el, i) => (
-                                <Header.ListItem
-                                    key={el.name}
-                                    to={el.to}
-                                    name={el.name}
-                                    index={i}
-                                >
-                                    {el.icon}
-                                </Header.ListItem>
-                            ))}
-                        </Header>
-                        <Routes>
-                            <Route path="/" element={null} />
-                            <Route path="task" element={<TodoPage />} />
-                            <Route path="alarm" element={<AlarmPage />} />
-                            <Route path="analysis" element={<AnalysisPage />} />
-                        </Routes>
-                        <Timer />
-                        <Modal
-                            show={show}
-                            close={closeModal}
-                            event={EventModal}
-                        >
-                            {modalComponent?.[modalName]}
-                        </Modal>
-                    </HashRouter>
-                </ModalContext.Provider>
+                <HashRouter>
+                    <Header />
+                    <Routes>
+                        <Route path="/" element={null} />
+                        <Route path="task" element={<TodoPage />} />
+                        <Route path="alarm" element={<AlarmPage />} />
+                        <Route path="analysis" element={<AnalysisPage />} />
+                    </Routes>
+                    <Timer />
+                </HashRouter>
             </TimerContext.Provider>
         </ThemeProvider>
     );

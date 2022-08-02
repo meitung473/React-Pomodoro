@@ -22,7 +22,7 @@ export const theme = {
 /**
  * 產生 0 - 1000 的灰階
  * @param {Number} scaleoffset
- * @returns 回傳物件
+ * @returns 回傳物件  black_ 0~1000
  */
 function createGreyscale(scaleoffset) {
     let b = "hsla(0, 0%, {x}%, 1)";

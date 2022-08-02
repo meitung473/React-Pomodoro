@@ -6,7 +6,7 @@ import { selectorTimer } from "@redux/selector";
 import { updateChart } from "@reducers/chart";
 import { switchTimerONOFF } from "@reducers/timer";
 
-import { ModalContext, TimerContext } from "@constants/context";
+import { TimerContext } from "@constants/context";
 import { br } from "@constants/device";
 
 import { dataTypes } from "@pages/AnalysisPage/type";
@@ -14,20 +14,12 @@ import useInterval from "@Hooks/useInterval";
 import useAlarm from "@Hooks/useAlarm";
 
 import { TomatoCount, Clock } from "@components";
-import { ReactComponent as NextTaskIcon } from "@images/TimerNextTask.svg";
-import { ReactComponent as PauseIcon } from "@images/TimerPause.svg";
-import { ReactComponent as PlayIcon } from "@images/TimerPlay.svg";
-import { ReactComponent as CancelIcon } from "@images/Cancel.svg";
-import {
-    SKIPMODAL,
-    CANCELMODAL,
-    WARN_NONTASKCANCEL,
-    WARN_STARTMODAL,
-    WARN_NONSKIP,
-    FINISHMODAL,
-} from "@components/Modal/ModalType";
+
 import { TASKMODE, MODETIME } from "@constants/constants";
 import { toggleAlarm } from "@redux/reducers/alarm";
+
+import { ModalProvider, useModal } from "@components/Modal/ModalcontextPackage";
+import TimerButtons from "./TimerButtons";
 
 const TimerContainer = styled.main`
     display: flex;
@@ -64,8 +56,8 @@ const TimerControll = styled.div`
 const Timer = () => {
     const timer = useSelector(selectorTimer);
     const dispatch = useDispatch();
-
-    const { openModal } = useContext(ModalContext);
+    // const { setModalName } = useModal();
+    // const { openModal } = useContext(ModalContext);
     const {
         currenttime,
         setCurrentTime,
@@ -76,18 +68,25 @@ const Timer = () => {
 
     const { Playalarm, audioref } = useAlarm();
 
-    const handleClick = (boolean) => () => {
-        if (!timer.currentOnTaskId) {
-            openModal(WARN_STARTMODAL);
-            return;
-        }
-        if (timer.timertomatonum.rest <= 0) {
-            openModal(FINISHMODAL);
-            return;
-        }
-        dispatch(switchTimerONOFF(boolean));
-        audioref.current.src = null;
-    };
+    // const PlayHandler = useCallback(
+    //     (boolean) => () => {
+    //         /**
+    //          * no task not yet
+    //          */
+    //         if (!timer.currentOnTaskId) {
+    //             setModa;
+    //             //openModal(WARN_STARTMODAL);
+    //             return;
+    //         }
+    //         if (timer.timertomatonum.rest <= 0) {
+    //             //openModal(FINISHMODAL);
+    //             return;
+    //         }
+    //         dispatch(switchTimerONOFF(boolean));
+    //         audioref.current.src = null;
+    //     },
+    //     []
+    // );
 
     useInterval(
         () => {
@@ -119,34 +118,37 @@ const Timer = () => {
         <TimerContainer>
             <TimerControll>
                 <Clock currentLine={currentLine} />
-                <ButtonGroup $mode={timer?.timermode || TASKMODE}>
-                    <CancelIcon
-                        onClick={() => {
-                            if (!timer.currentOnTaskId) {
-                                openModal(WARN_NONTASKCANCEL);
-                                return;
-                            }
-                            openModal(CANCELMODAL);
-                        }}
-                    />
-                    {timer.timerstatus ? (
-                        <PauseIcon onClick={handleClick(false)} />
-                    ) : (
-                        <PlayIcon onClick={handleClick(true)} />
-                    )}
-                    <NextTaskIcon
-                        onClick={() => {
-                            if (
-                                !timer.currentOnTaskId ||
-                                timer.timertomatonum.rest <= 0
-                            ) {
-                                openModal(WARN_NONSKIP);
-                                return;
-                            }
-                            openModal(SKIPMODAL);
-                        }}
-                    />
-                </ButtonGroup>
+                <ModalProvider>
+                    <TimerButtons />
+                    {/* <ButtonGroup $mode={timer?.timermode || TASKMODE}>
+                        <CancelIcon
+                            onClick={() => {
+                                if (!timer.currentOnTaskId) {
+                                    //openModal(WARN_NONTASKCANCEL);
+                                    return;
+                                }
+                                //openModal(CANCELMODAL);
+                            }}
+                        />
+                        {timer.timerstatus ? (
+                            <PauseIcon onClick={handleClick(false)} />
+                        ) : (
+                            <PlayIcon onClick={handleClick(true)} />
+                        )}
+                        <NextTaskIcon
+                            onClick={() => {
+                                if (
+                                    !timer.currentOnTaskId ||
+                                    timer.timertomatonum.rest <= 0
+                                ) {
+                                    //openModal(WARN_NONSKIP);
+                                    return;
+                                }
+                                //openModal(SKIPMODAL);
+                            }}
+                        />
+                    </ButtonGroup> */}
+                </ModalProvider>
             </TimerControll>
             <TomatoCount
                 fill={

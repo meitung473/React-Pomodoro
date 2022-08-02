@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { SubTitle, Input, Body, DefaultFooter } from "../Modal.style";
+import { useDispatch } from "react-redux";
+
 import { updateChart } from "@redux/reducers/chart";
 import { addTodo } from "@redux/reducers/todo";
-
-import { Modal } from "../..";
-import { ModalContext } from "@constants/context";
+import { useModal } from "@components/Modal/ModalcontextPackage";
 
 const TomatoContainer = styled.div`
     display: flex;
@@ -47,12 +47,14 @@ const ErrorMessage = styled.span`
     font-weight: lighter;
     color: ${({ theme }) => theme.Warn.active};
 `;
-function AddModal() {
+export default function AddModal() {
     const dispatch = useDispatch();
+    const { setModalName } = useModal();
     const [content, setContent] = useState("");
     const [tomato, setTomato] = useState(1);
-    const { closeModal } = useContext(ModalContext);
+
     const [errorMessage, setErrorMessage] = useState("");
+
     const event = () => {
         if (!content) {
             setErrorMessage("不能為空白");
@@ -62,18 +64,16 @@ function AddModal() {
         dispatch(updateChart("totaltask", 1));
         setContent("");
         setErrorMessage("");
-        closeModal();
+        setModalName(null);
     };
-
     return (
-        <Modal.Wrapper>
-            <Modal.Title>新增任務</Modal.Title>
-            <Modal.Body>
-                <Modal.SubTitle>
+        <>
+            <Body>
+                <SubTitle>
                     任務名稱
                     <ErrorMessage> {errorMessage}</ErrorMessage>
-                </Modal.SubTitle>
-                <Modal.Input
+                </SubTitle>
+                <Input
                     type="text"
                     onChange={(e) => {
                         setContent(e.target.value);
@@ -83,7 +83,7 @@ function AddModal() {
                     }}
                 />
 
-                <Modal.SubTitle>番茄數</Modal.SubTitle>
+                <SubTitle>番茄數</SubTitle>
                 <TomatoContainer>
                     {Array.from({ length: 5 }, (_, i) => (
                         <TomatoSlot
@@ -95,10 +95,8 @@ function AddModal() {
                         />
                     ))}
                 </TomatoContainer>
-            </Modal.Body>
-            <Modal.DefaultFooter callback={event} />
-        </Modal.Wrapper>
+            </Body>
+            <DefaultFooter callback={event} />
+        </>
     );
 }
-
-export default AddModal;

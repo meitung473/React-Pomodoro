@@ -22,6 +22,7 @@ if (!fs.existsSync(filedirname)) {
     });
 }
 generatefile();
+
 function generatefile() {
     fs.writeFile(
         "src/" + filedirname + "/sound.json",

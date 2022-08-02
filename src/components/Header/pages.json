@@ -1,0 +1,16 @@
+{
+    "data": [
+        {
+            "name": "task",
+            "to": "task"
+        },
+        {
+            "name": "alarm",
+            "to": "alarm"
+        },
+        {
+            "name": "analysis",
+            "to": "analysis"
+        }
+    ]
+}

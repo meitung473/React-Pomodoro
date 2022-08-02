@@ -1,5 +1,4 @@
 import { br } from "@constants/device";
-import { createContext } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
@@ -17,10 +16,10 @@ const Container = styled.aside`
     ${br.md} {
         flex-basis: 300px;
         flex-grow: 0;
-        margin: 4em 0px 64px 4em;
+        margin: 4em 0 4em 4em;
         border-radius: 10px;
-        background-color: #fff;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+        background-color: ${({ theme }) => theme.greyscale.black_0};
+        box-shadow: 0 3px 6px ${({ theme }) => theme.greyscale.black_500};
         position: relative;
         top: 0px;
         display: flex;
@@ -52,6 +51,7 @@ const Header = styled.div`
 
 const Title = styled.h3`
     letter-spacing: 0.2em;
+    font-weight: 400;
     padding: 0 2em;
     ${br.md} {
         padding: 0 1em;
@@ -69,13 +69,8 @@ const ButtonGroup = styled.div`
     }
 `;
 
-const PageContext = createContext();
 function Page({ children }) {
-    return (
-        <PageContext.Provider value={{ hello: "123" }}>
-            <Container>{children}</Container>
-        </PageContext.Provider>
-    );
+    return <Container>{children}</Container>;
 }
 
 Page.SubBody = SubBody;
@@ -86,5 +81,5 @@ Page.ButtonGroup = ButtonGroup;
 export default Page;
 
 Page.propTypes = {
-    children: PropTypes.array,
+    children: PropTypes.node,
 };

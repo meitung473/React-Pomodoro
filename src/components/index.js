@@ -1,6 +1,5 @@
 import AnalysisTable from "./AnalysisTable";
 import Clock from "./Clock";
-import Modal from "./Modal";
 import Timer from "./Timer";
 import TomatoCount from "./TomatoCount";
 import Chart from "./Chart";
@@ -16,7 +15,6 @@ export {
     AnalysisTable,
     Alarmoption,
     Clock,
-    Modal,
     OrderButton,
     Timer,
     TomatoCount,

@@ -2,32 +2,32 @@ import React, { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { switchTimerONOFF } from "@redux/reducers/timer";
 
-import { ModalContext, TimerContext } from "@constants/context";
-import Modal from "../Modal";
+import { TimerContext } from "@constants/context";
+import { useModal } from "@components/Modal/ModalcontextPackage";
+import { Body, DefaultFooter } from "../Modal.style";
 
 function SkipModal() {
     const { nextRound } = useContext(TimerContext);
-    const { closeModal } = useContext(ModalContext);
+    const { setModalName } = useModal();
     const dispatch = useDispatch();
 
     const skip = () => {
         nextRound();
         dispatch(switchTimerONOFF(false));
-        closeModal();
+        setModalName(null);
     };
 
     return (
-        <Modal.Wrapper>
-            <Modal.Title>跳至休息時間</Modal.Title>
-            <Modal.Body>
+        <>
+            <Body>
                 <p>
                     您確定要跳至休息時間?
                     <br />
                     此次番茄鐘將不列入計算。
                 </p>
-            </Modal.Body>
-            <Modal.DefaultFooter callback={skip} />
-        </Modal.Wrapper>
+            </Body>
+            <DefaultFooter callback={skip} />
+        </>
     );
 }
 

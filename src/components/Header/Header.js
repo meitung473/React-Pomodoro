@@ -1,125 +1,49 @@
-import { createContext, useContext, useState, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
-import styled from "styled-components";
 import PropTypes from "prop-types";
+import useToggle from "@Hooks/useToggle";
 
-import { br } from "@constants/device";
-import { Pages } from "@constants/Pages";
+import { Container, Navgation, Indicator, List } from "./Header.style";
+import { ReactComponent as TaskIcon } from "@images/Task.svg";
+import { ReactComponent as AlarmIcon } from "@images/Alarm.svg";
+import { ReactComponent as AnalysisIcon } from "@images/Analysis.svg";
+import pagedata from "./pages.json";
 
-const Container = styled.ul`
-    background-color: ${({ theme }) => theme.primary.Default};
-    display: flex;
-    ${br.md} {
-        box-sizing: border-box;
-        padding: 0.5em 0;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-`;
-const Navgation = styled.nav`
-    position: relative;
-    ${br.md} {
-        height: 100%;
-    }
-`;
-const Indicator = styled.span`
-    display: none;
-    ${br.md} {
-        display: block;
-        position: absolute;
-        left: 120%;
-        width: 0;
-        height: 0;
-        top: 0;
-        display: block;
-        border-style: solid;
-        border-width: 15px 30px 15px 0;
-        border-color: transparent ${({ theme }) => theme.primary.Tint}
-            transparent transparent;
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in;
-        ${({ $index }) =>
-            $index < 0
-                ? `
-                opacity: 0;
-        transform: translateY(0%);
-        `
-                : `
-                opacity: 1;
-        transform: translateY(${80 + 70 * $index}px);
-        
-        `}
-    }
-`;
+const pageIcon = [<TaskIcon />, <AlarmIcon />, <AnalysisIcon />];
+const Pages = pagedata.data.map((el, i) =>
+    Object.assign(el, { icon: pageIcon[i] })
+);
 
-const List = styled.li`
-    svg {
-        width: 30px;
-        height: 30px;
-    }
-    list-style: none;
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1 1 auto;
-    background-color: ${({ $currentPage, theme }) =>
-        $currentPage === true ? theme.primary.Dark : "transparent"};
-    padding: 0.5em 1em;
-    ${br.md} {
-        padding: 1em;
-        flex: 0;
-        &:nth-of-type(1) {
-            margin-top: 64px;
-        }
-    }
-`;
-
-const HeaderContext = createContext();
-function Header({ children }) {
+function Header() {
     let location = useLocation();
-    const Pageindex = useMemo(
-        () =>
-            Object.values(Pages).findIndex(
-                ({ name }) => "/" + name === location.pathname
-            ),
-        [location.pathname]
-    );
+    const { open, ToggleHandler } = useToggle();
+    // const Pageindex = useMemo(
+    //     () =>
+    //         Object.values(Pages).findIndex(
+    //             ({ name }) => "/" + name === location.pathname
+    //         ),
+    //     [location.pathname]
+    // );
 
     return (
-        <HeaderContext.Provider value={{ currentPage: location.pathname }}>
-            <Navgation>
-                <Container>{children}</Container>
-                <Indicator $index={Pageindex} />
-            </Navgation>
-        </HeaderContext.Provider>
+        <Navgation>
+            <Container>
+                {Pages.map(({ name, to, icon }) => (
+                    <List
+                        key={name}
+                        onClick={() => ToggleHandler()}
+                        $currentPage={location.pathname === "/" + name}
+                    >
+                        <Link to={open ? "/" : to}>{icon}</Link>
+                    </List>
+                ))}
+            </Container>
+            {/* <Indicator $index={Pageindex} /> */}
+        </Navgation>
     );
 }
-function ListLink({ children, to, name }) {
-    const [onoff, setOnoff] = useState(false);
-    const { currentPage } = useContext(HeaderContext);
-
-    return (
-        <List $currentPage={currentPage === "/" + name}>
-            <Link to={onoff ? "/" : to} onClick={() => setOnoff(!onoff)}>
-                {children}
-            </Link>
-        </List>
-    );
-}
-
-Header.ListItem = ListLink;
-Header.Indicator = Indicator;
 
 export default Header;
 
 Header.propTypes = {
-    children: PropTypes.array,
-};
-ListLink.propTypes = {
-    children: PropTypes.element,
-    to: PropTypes.string,
-    name: PropTypes.string,
+    children: PropTypes.node,
 };

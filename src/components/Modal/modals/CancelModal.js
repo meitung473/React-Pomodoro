@@ -1,28 +1,27 @@
 import React, { useContext } from "react";
-
-import { Modal } from "../..";
-import { ModalContext, TimerContext } from "@constants/context";
+import { TimerContext } from "@constants/context";
+import { useModal } from "@components/Modal/ModalcontextPackage";
+import { Body, DefaultFooter } from "../Modal.style";
 
 function CancelModal() {
     const { initialTimer } = useContext(TimerContext);
-    const { closeModal } = useContext(ModalContext);
+    const { setModalName } = useModal();
     const cancel = () => {
         initialTimer(null);
-        closeModal();
+        setModalName(null);
     };
 
     return (
-        <Modal.Wrapper>
-            <Modal.Title>終止任務</Modal.Title>
-            <Modal.Body>
+        <>
+            <Body>
                 <p>
                     您確定要終止目前任務?。
                     <br />
                     此次番茄鐘將不列入計算。
                 </p>
-            </Modal.Body>
-            <Modal.DefaultFooter callback={cancel} />
-        </Modal.Wrapper>
+            </Body>
+            <DefaultFooter callback={cancel} />
+        </>
     );
 }
 

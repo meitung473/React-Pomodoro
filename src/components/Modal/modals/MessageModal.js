@@ -1,15 +1,13 @@
-import { Modal } from "../..";
 import PropTypes from "prop-types";
-
+import { Body, ComfirmFooter } from "../Modal.style";
 function MessageModal({ message }) {
     return (
-        <Modal.Wrapper>
-            <Modal.Title>{message?.title || "訊息"}</Modal.Title>
-            <Modal.Body>
+        <>
+            <Body>
                 <p>{message?.message || "錯誤"}</p>
-            </Modal.Body>
-            <Modal.ComfirmFooter />
-        </Modal.Wrapper>
+            </Body>
+            <ComfirmFooter />
+        </>
     );
 }
 

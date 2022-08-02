@@ -1,9 +1,12 @@
-import AddModal from "./modals/AddModal";
-import CancelModal from "./modals/CancelModal";
 import FinishModal from "./modals/FinishModal";
 import MessageModal from "./modals/MessageModal";
+import AddModal from "./modals/AddModal";
 import SkipModal from "./modals/SkipModal";
+import CancelModal from "./modals/CancelModal";
 
+/**
+ * type string
+ */
 export const ADDMODAL = "add";
 export const SKIPMODAL = "skip";
 export const CANCELMODAL = "cancel";
@@ -12,7 +15,10 @@ export const WARN_STARTMODAL = "warn_start";
 export const WARN_NONTASKCANCEL = "warn_nontaskcancel";
 export const WARN_NONSKIP = "warn_nonskip";
 
-const message = {
+/**
+ * 單純訊息 modal
+ */
+const messageModals = {
     [WARN_STARTMODAL]: {
         title: "提醒",
         message: "選定一項任務再開始",
@@ -27,18 +33,36 @@ const message = {
     },
 };
 
-export const component = {
-    [ADDMODAL]: <AddModal />,
-    [SKIPMODAL]: <SkipModal />,
-    [CANCELMODAL]: <CancelModal />,
-    [FINISHMODAL]: <FinishModal />,
+/**
+ * 具有特殊功能的 modal
+ */
+const component = {
+    [ADDMODAL]: {
+        title: "新增任務",
+        Content: AddModal,
+    },
+    [SKIPMODAL]: {
+        title: "跳過任務",
+        Content: SkipModal,
+    },
+    [CANCELMODAL]: {
+        title: "取消任務",
+        Content: CancelModal,
+    },
+    [FINISHMODAL]: {
+        title: "完成任務",
+        Content: FinishModal,
+    },
 };
 
 export const modalComponent = Object.assign(
     component,
-    Object.entries(message).reduce((p, n) => {
-        const [name, content] = n;
-        p[name] = <MessageModal message={content} />;
+    Object.entries(messageModals).reduce((p, n) => {
+        const [keyname, content] = n;
+        p[keyname] = {
+            title: content.title,
+            Content: () => <MessageModal message={content} />,
+        };
         return p;
     }, {})
 );
