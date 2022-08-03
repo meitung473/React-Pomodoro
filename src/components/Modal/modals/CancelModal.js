@@ -1,13 +1,15 @@
-import React, { useContext } from "react";
-import { TimerContext } from "@constants/context";
+import React from "react";
 import { useModal } from "@components/Modal/ModalcontextPackage";
 import { Body, DefaultFooter } from "../Modal.style";
+import { useDispatch } from "react-redux";
+import { initializeTimer } from "@redux/reducers/timer/slice";
 
 function CancelModal() {
-    const { initialTimer } = useContext(TimerContext);
     const { setModalName } = useModal();
+    const dispatch = useDispatch();
+
     const cancel = () => {
-        initialTimer(null);
+        dispatch(initializeTimer());
         setModalName(null);
     };
 

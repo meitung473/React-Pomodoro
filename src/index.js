@@ -1,17 +1,17 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
-import configStore from "./redux/store";
+import store from "@redux/store";
 import Root from "./components/Root";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
-const store = configStore();
+const configstore = store();
 const container = document.getElementById("root");
 const root = createRoot(container);
 
 root.render(
     <React.StrictMode>
-        <Root store={store} />
+        <Root store={configstore} />
     </React.StrictMode>
 );
 

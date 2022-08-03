@@ -73,6 +73,8 @@ const Clockface = styled.g`
     }
 `;
 
+// Clock 應該只有計時的時候才會動，
+
 const Clock = ({ currentLine }) => {
     const timer = useSelector(selectorTimer);
     const todos = useSelector(selectorTodo);

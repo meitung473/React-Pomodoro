@@ -21,6 +21,7 @@ const OrderSlot = styled.div`
     display: flex;
     align-items: center;
 `;
+
 const OrderButton = ({ $isfirst, $islast, handleOrder, thisorder }) => {
     return (
         <OrderSlot>

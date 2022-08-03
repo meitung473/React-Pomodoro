@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useContext } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 import { selectorTodo } from "@redux/selector";
@@ -6,10 +6,7 @@ import { orderTodo } from "@reducers/todo";
 
 import styled from "styled-components";
 import { theme } from "@constants/theme";
-// import { ModalContext } from "@constants/context";
-
 import { Page, Todo } from "@components";
-// import { ADDMODAL } from "@components/Modal/ModalType";
 import { ReactComponent as OrderIcon } from "@images/Order.svg";
 import { ReactComponent as NewTaskIcon } from "@images/NewTask.svg";
 import {
@@ -17,8 +14,6 @@ import {
     useModal,
     Modal,
 } from "@components/Modal/ModalcontextPackage";
-// import AddModal2 from "@components/Modal/modals/AddModal2";
-// import { Cancel, Confirm, Footer } from "@components/Modal/Modal.style";
 
 const OrderButton = styled(OrderIcon)`
     [data-name*="Polygon"] {
@@ -35,7 +30,6 @@ const selectUncompletedTodos = createSelector(selectorTodo, (todos) =>
 
 function NewTask() {
     const { setModalName } = useModal();
-
     return (
         <>
             <NewTaskIcon onClick={() => setModalName("add")} />
@@ -45,7 +39,6 @@ function NewTask() {
 }
 
 const TodoPage = () => {
-    // const { openModal } = useContext(ModalContext);
     const CompletedTodos = useSelector(selectCompletedTodos);
     const UncompletedTodos = useSelector(selectUncompletedTodos);
     const dispatch = useDispatch();

@@ -11,9 +11,9 @@ export const ADDMODAL = "add";
 export const SKIPMODAL = "skip";
 export const CANCELMODAL = "cancel";
 export const FINISHMODAL = "finish";
-export const WARN_STARTMODAL = "warn_start";
-export const WARN_NONTASKCANCEL = "warn_nontaskcancel";
-export const WARN_NONSKIP = "warn_nonskip";
+export const WARN_STARTMODAL = "warn_finish";
+export const WARN_NONTASKCANCEL = "warn_cancel";
+export const WARN_NONSKIP = "warn_skip";
 
 /**
  * 單純訊息 modal

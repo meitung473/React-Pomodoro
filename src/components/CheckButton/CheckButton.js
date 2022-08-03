@@ -1,14 +1,11 @@
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { createSelector } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { selectorTimer } from "@redux/selector";
-import { toggleTodo, updateTodoDate } from "@reducers/todo";
-import { updateChart } from "@reducers/chart";
-
 import { ReactComponent as CheckIcon } from "@images/Check.svg";
 import { dataTypes } from "@pages/AnalysisPage/type";
 import { today } from "@pages/AnalysisPage/calculate";
+import { toggleTodoThunk } from "@redux/reducers/todo/slice";
+import { memo } from "react";
 
 const Checkbox = styled.div`
     height: 12px;
@@ -27,41 +24,36 @@ const Checkbox = styled.div`
         z-index: 1;
     }
 `;
-const selectorTimercurrentId = createSelector(
-    selectorTimer,
-    (timer) => timer.currentOnTaskId
-);
-const CheckButton = ({ isCompeleted, id, initialTimer, createdAt }) => {
+
+const CheckButton = ({ isCompeleted, id, createdAt }) => {
     const dispatch = useDispatch();
-    const currentId = useSelector(selectorTimercurrentId);
+    const handleClick = () => {
+        if (!isCompeleted) {
+            dispatch(
+                toggleTodoThunk(createdAt === today, {
+                    todo: { id },
+                    chart: [{ key: dataTypes.compeletedTaskNum, value: 1 }],
+                })
+            );
+        } else {
+            dispatch(
+                toggleTodoThunk(createdAt === today, {
+                    todo: { id },
+                    chart: [{ key: "totaltask", value: 1 }],
+                })
+            );
+        }
+    };
     return (
-        <Checkbox
-            $isCompeleted={isCompeleted}
-            onClick={() => {
-                dispatch(toggleTodo(id));
-                if (!isCompeleted) {
-                    // 矯正不是當日新增
-                    if (createdAt !== today) {
-                        dispatch(updateTodoDate(id));
-                        dispatch(updateChart("totaltask", 1));
-                    }
-                    dispatch(updateChart(dataTypes.compeletedTaskNum, 1));
-                } else {
-                    if (createdAt !== today) {
-                        dispatch(updateTodoDate(id));
-                    }
-                    dispatch(updateChart("totaltask", 1));
-                }
-                if (id === currentId) {
-                    initialTimer(null);
-                }
-            }}
-        >
+        <Checkbox $isCompeleted={isCompeleted} onClick={handleClick}>
             {isCompeleted && <CheckIcon />}
         </Checkbox>
     );
 };
-export default CheckButton;
+export default memo(CheckButton, (prevProps, nextProps) => {
+    if (prevProps.isCompeleted === nextProps.isCompeleted) return true;
+    return false;
+});
 
 CheckButton.propTypes = {
     isCompeleted: PropTypes.bool,

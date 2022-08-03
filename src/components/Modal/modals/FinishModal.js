@@ -1,25 +1,15 @@
-import React, { useContext } from "react";
-
-import { TimerContext } from "@constants/context";
-import { useSelector, useDispatch } from "react-redux";
-import { dataTypes } from "@pages/AnalysisPage/type";
-import { updateChart } from "@redux/reducers/chart";
-import { toggleTodo } from "@redux/reducers/todo";
-import { selectorTimer } from "@redux/selector";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { Body, DefaultFooter } from "../Modal.style";
 import { useModal } from "@components/Modal/ModalcontextPackage";
+import { finishTodo } from "@redux/reducers/todo/slice";
 
 function FinishModal() {
-    const { initialTimer } = useContext(TimerContext);
     const { setModalName } = useModal();
-
-    const timer = useSelector(selectorTimer);
     const dispatch = useDispatch();
 
     const finish = () => {
-        dispatch(toggleTodo(timer.currentOnTaskId));
-        dispatch(updateChart(dataTypes.compeletedTaskNum, 1));
-        initialTimer(null);
+        dispatch(finishTodo());
         setModalName(null);
     };
 

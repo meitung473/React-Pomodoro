@@ -1,22 +1,19 @@
-import React, { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { ReactComponent as NextTaskIcon } from "@images/TimerNextTask.svg";
 import { ReactComponent as PauseIcon } from "@images/TimerPause.svg";
 import { ReactComponent as PlayIcon } from "@images/TimerPlay.svg";
 import { ReactComponent as CancelIcon } from "@images/Cancel.svg";
-import { TASKMODE, MODETIME } from "@constants/constants";
-import { selectorTimer } from "@redux/selector";
+import { TASKMODE } from "@constants/constants";
 import { Modal, useModal } from "@components/Modal/ModalcontextPackage";
 import {
     SKIPMODAL,
     CANCELMODAL,
-    WARN_NONTASKCANCEL,
-    WARN_STARTMODAL,
-    WARN_NONSKIP,
     FINISHMODAL,
 } from "@components/Modal/ModalType";
-import { switchTimerONOFF } from "@reducers/timer";
+import { switchTimer } from "@redux/reducers/timer/slice";
+
 const ButtonGroup = styled.div`
     box-sizing: border-box;
     padding: 8px 20px;
@@ -32,58 +29,58 @@ const ButtonGroup = styled.div`
         cursor: pointer;
     }
 `;
+const showWarnModal = (modalName, boolean) => {
+    return boolean ? "warn_" + modalName : modalName;
+};
 
-export default function TimerButtons() {
-    const timer = useSelector(selectorTimer);
+function TimerButtons({
+    currentOnTaskId,
+    timermode,
+    timerstatus,
+    timertomatonum,
+}) {
     const { setModalName } = useModal();
     const dispatch = useDispatch();
-    const PlayHandler = (boolean) => () => {
-        /**
-         * no task not yet
-         */
-        if (!timer.currentOnTaskId) {
-            setModalName(WARN_STARTMODAL);
 
+    const messageHandler = useCallback(
+        (modalName, boolean) => () => {
+            setModalName(showWarnModal(modalName, boolean));
+        },
+        []
+    );
+
+    const PlayHandler = () => {
+        if (!currentOnTaskId) {
+            messageHandler(FINISHMODAL, !currentOnTaskId)();
             return;
         }
-        if (timer.timertomatonum.rest <= 0) {
-            setModalName(FINISHMODAL);
+
+        if (timertomatonum.rest <= 0) {
+            messageHandler(FINISHMODAL, !timertomatonum.rest <= 0)();
             return;
         }
-        dispatch(switchTimerONOFF(boolean));
-
+        dispatch(switchTimer());
         // audioref.current.src = null;
     };
 
     return (
-        <ButtonGroup $mode={timer?.timermode || TASKMODE}>
+        <ButtonGroup $mode={timermode ?? TASKMODE}>
             <CancelIcon
-                onClick={() => {
-                    if (!timer.currentOnTaskId) {
-                        setModalName(WARN_NONTASKCANCEL);
-                        return;
-                    }
-                    setModalName(CANCELMODAL);
-                }}
+                onClick={messageHandler(CANCELMODAL, !currentOnTaskId)}
             />
-            {timer.timerstatus ? (
-                <PauseIcon onClick={PlayHandler(false)} />
+            {timerstatus ? (
+                <PauseIcon onClick={PlayHandler} />
             ) : (
-                <PlayIcon onClick={PlayHandler(true)} />
+                <PlayIcon onClick={PlayHandler} />
             )}
             <NextTaskIcon
-                onClick={() => {
-                    if (
-                        !timer.currentOnTaskId ||
-                        timer.timertomatonum.rest <= 0
-                    ) {
-                        setModalName(WARN_NONSKIP);
-                        return;
-                    }
-                    setModalName(SKIPMODAL);
-                }}
+                onClick={messageHandler(
+                    SKIPMODAL,
+                    !currentOnTaskId || timertomatonum.rest <= 0
+                )}
             />
             <Modal />
         </ButtonGroup>
     );
 }
+export default TimerButtons;
