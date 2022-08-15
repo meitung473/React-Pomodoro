@@ -1,8 +1,4 @@
-import FinishModal from "./modals/FinishModal";
-import MessageModal from "./modals/MessageModal";
-import AddModal from "./modals/AddModal";
-import SkipModal from "./modals/SkipModal";
-import CancelModal from "./modals/CancelModal";
+import { ModalBox } from ".";
 
 /**
  * type string
@@ -11,9 +7,9 @@ export const ADDMODAL = "add";
 export const SKIPMODAL = "skip";
 export const CANCELMODAL = "cancel";
 export const FINISHMODAL = "finish";
-export const WARN_STARTMODAL = "warn_start";
-export const WARN_NONTASKCANCEL = "warn_nontaskcancel";
-export const WARN_NONSKIP = "warn_nonskip";
+export const WARN_STARTMODAL = "warn_finish";
+export const WARN_NONTASKCANCEL = "warn_cancel";
+export const WARN_NONSKIP = "warn_skip";
 
 /**
  * 單純訊息 modal
@@ -39,19 +35,19 @@ const messageModals = {
 const component = {
     [ADDMODAL]: {
         title: "新增任務",
-        Content: AddModal,
+        Content: ModalBox.AddModal,
     },
     [SKIPMODAL]: {
         title: "跳過任務",
-        Content: SkipModal,
+        Content: ModalBox.SkipModal,
     },
     [CANCELMODAL]: {
         title: "取消任務",
-        Content: CancelModal,
+        Content: ModalBox.CancelModal,
     },
     [FINISHMODAL]: {
         title: "完成任務",
-        Content: FinishModal,
+        Content: ModalBox.FinishModal,
     },
 };
 
@@ -61,7 +57,7 @@ export const modalComponent = Object.assign(
         const [keyname, content] = n;
         p[keyname] = {
             title: content.title,
-            Content: () => <MessageModal message={content} />,
+            Content: () => <ModalBox.MessageModal message={content} />,
         };
         return p;
     }, {})

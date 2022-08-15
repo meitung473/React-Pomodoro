@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectorAlarm } from "@redux/selector";
 import PropTypes from "prop-types";
+import { setupType } from "@redux/reducers/alarm/slice";
+import { createSelector } from "@reduxjs/toolkit";
 
 const RadioItem = styled.label`
     cursor: pointer;
@@ -28,26 +30,32 @@ const RadioItem = styled.label`
         appearance: none;
     }
 `;
+const selectAlarmHadAlarm = createSelector(
+    selectorAlarm,
+    (alarm) => alarm.hadAlarm
+);
 
 const Alarmoption = ({
     group,
     content,
-    handleChange,
     $fill,
     index,
-    stateSetter,
+    setCurrentPlay,
+    setTimesupPlay,
 }) => {
-    const alarm = useSelector(selectorAlarm);
-
+    const hadalarm = useSelector(selectAlarmHadAlarm);
+    const dispatch = useDispatch();
     return (
-        <RadioItem $alarmstatus={alarm.HasAlarm} $select={$fill}>
+        <RadioItem $alarmstatus={hadalarm} $select={$fill}>
             <input
                 type="radio"
                 name={group}
-                disabled={!alarm.HasAlarm}
+                disabled={!hadalarm}
                 onChange={() => {
-                    if (!alarm.HasAlarm) return;
-                    handleChange(group, index, stateSetter);
+                    if (!hadalarm) return;
+                    dispatch(setupType(group, index));
+                    setCurrentPlay(index);
+                    setTimesupPlay(null);
                 }}
             />
             {content}

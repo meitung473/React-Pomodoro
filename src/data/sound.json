@@ -1,26 +1,28 @@
-[
-  {
-    "name": "beep",
-    "path": "/assets/audio/beep.wav"
-  },
-  {
-    "name": "facility-alarm",
-    "path": "/assets/audio/facility-alarm.wav"
-  },
-  {
-    "name": "gong",
-    "path": "/assets/audio/gong.wav"
-  },
-  {
-    "name": "racing",
-    "path": "/assets/audio/racing.wav"
-  },
-  {
-    "name": "rooster",
-    "path": "/assets/audio/rooster.wav"
-  },
-  {
-    "name": "sci-fi",
-    "path": "/assets/audio/sci-fi.wav"
-  }
-]
+{
+  "data": [
+    {
+      "name": "beep",
+      "path": "/assets/audio/beep.wav"
+    },
+    {
+      "name": "facility-alarm",
+      "path": "/assets/audio/facility-alarm.wav"
+    },
+    {
+      "name": "gong",
+      "path": "/assets/audio/gong.wav"
+    },
+    {
+      "name": "racing",
+      "path": "/assets/audio/racing.wav"
+    },
+    {
+      "name": "rooster",
+      "path": "/assets/audio/rooster.wav"
+    },
+    {
+      "name": "sci-fi",
+      "path": "/assets/audio/sci-fi.wav"
+    }
+  ]
+}

@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { SubTitle, Input, Body, DefaultFooter } from "../Modal.style";
 import { useDispatch } from "react-redux";
-
-import { updateChart } from "@redux/reducers/chart";
-import { addTodo } from "@redux/reducers/todo";
 import { useModal } from "@components/Modal/ModalcontextPackage";
+import { addTodoThunk } from "@redux/reducers/todo/slice";
 
 const TomatoContainer = styled.div`
     display: flex;
@@ -60,8 +58,18 @@ export default function AddModal() {
             setErrorMessage("不能為空白");
             return;
         }
-        dispatch(addTodo(content, tomato));
-        dispatch(updateChart("totaltask", 1));
+        dispatch(
+            addTodoThunk({
+                todo: {
+                    content,
+                    tomato,
+                },
+                chart: {
+                    key: "totaltask",
+                    value: 1,
+                },
+            })
+        );
         setContent("");
         setErrorMessage("");
         setModalName(null);

@@ -8,9 +8,11 @@ import useMediaQuery from "@Hooks/useMediaQuery";
 import { adjustOpacity, theme } from "@constants/theme";
 import { br } from "@constants/device";
 
-import { Page, Chart, AnalysisTable } from "@components";
 import { Tabs, Tab2types } from "@pages/AnalysisPage/type";
 import { tab2Data } from "@pages/AnalysisPage/calculate";
+import { Page } from "../../Layout";
+import AnalysisTable from "./AnalysisTable";
+import Chart from "./Chart";
 
 const AnalysisSwitcher = styled.div`
     display: flex;

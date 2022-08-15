@@ -52,7 +52,6 @@ const TomatoSlot = styled.span`
         }
     }}
 `;
-
 const TomatoCount = ({ fill }) => {
     const timer = useSelector(selectorTimer);
     return (
@@ -64,6 +63,7 @@ const TomatoCount = ({ fill }) => {
                             key={"tomatocount" + i}
                             $fill
                             $timer={timer}
+                            // 剩餘時間 / 模式時間
                             $circleheight={
                                 timer.cachecurrentTime /
                                 MODETIME[timer.timermode]

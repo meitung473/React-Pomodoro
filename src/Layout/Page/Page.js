@@ -73,10 +73,12 @@ function Page({ children }) {
     return <Container>{children}</Container>;
 }
 
-Page.SubBody = SubBody;
-Page.Header = Header;
-Page.Title = Title;
-Page.ButtonGroup = ButtonGroup;
+Object.assign(Page, {
+    SubBody,
+    Header,
+    Title,
+    ButtonGroup,
+});
 
 export default Page;
 

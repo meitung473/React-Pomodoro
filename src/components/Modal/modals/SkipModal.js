@@ -1,19 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { switchTimerONOFF } from "@redux/reducers/timer";
 
-import { TimerContext } from "@constants/context";
 import { useModal } from "@components/Modal/ModalcontextPackage";
 import { Body, DefaultFooter } from "../Modal.style";
+import { nextRound } from "@redux/reducers/timer/slice";
 
 function SkipModal() {
-    const { nextRound } = useContext(TimerContext);
     const { setModalName } = useModal();
     const dispatch = useDispatch();
 
     const skip = () => {
-        nextRound();
-        dispatch(switchTimerONOFF(false));
+        dispatch(nextRound());
         setModalName(null);
     };
 

@@ -1,53 +1,45 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
-import { Timer, Modal, Header } from ".";
-import { modalComponent } from "@components/Modal/ModalType";
-import { TodoPage, AlarmPage, AnalysisPage } from "@pages";
-
-import useClock from "@Hooks/useClock";
-import useModal from "@Hooks/useModal";
-
-import { ModalContext, TimerContext } from "@constants/context";
 import { GlobalStyle } from "@constants/globalStyle";
 import { theme } from "@constants/theme";
 
-function App() {
-    const {
-        currenttime,
-        setCurrentTime,
-        currentLine,
-        setCurrentLine,
-        nextRound,
-        initialTimer,
-    } = useClock();
+import { TodoPage, AlarmPage, AnalysisPage } from "@pages";
+import Timer from "@pages/Timer";
+import { Header } from "../Layout";
+import { useAudio } from "@Hooks/useAudio";
+import AudioController from "./Audio/AudioController";
 
-    // const { openModal, closeModal, modalName, EventModal, show } = useModal();
+const defaulttheme = theme;
+
+function App() {
+    const { audiocontrollers, setCurrentPlay, setTimesupPlay } = useAudio();
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={defaulttheme}>
             <GlobalStyle />
-            <TimerContext.Provider
-                value={{
-                    currenttime,
-                    setCurrentTime,
-                    currentLine,
-                    setCurrentLine,
-                    initialTimer,
-                    nextRound,
-                }}
-            >
-                <HashRouter>
-                    <Header />
-                    <Routes>
-                        <Route path="/" element={null} />
-                        <Route path="task" element={<TodoPage />} />
-                        <Route path="alarm" element={<AlarmPage />} />
-                        <Route path="analysis" element={<AnalysisPage />} />
-                    </Routes>
-                    <Timer />
-                </HashRouter>
-            </TimerContext.Provider>
+            <HashRouter>
+                <Header />
+                <Routes>
+                    <Route path="/" element={null} />
+                    <Route path="task" element={<TodoPage />} />
+                    <Route
+                        path="alarm"
+                        element={
+                            <AlarmPage
+                                setCurrentPlay={setCurrentPlay}
+                                setTimesupPlay={setTimesupPlay}
+                            />
+                        }
+                    />
+                    <Route path="analysis" element={<AnalysisPage />} />
+                </Routes>
+                <Timer
+                    setCurrentPlay={setCurrentPlay}
+                    setTimesupPlay={setTimesupPlay}
+                />
+                <AudioController refs={audiocontrollers} />
+            </HashRouter>
         </ThemeProvider>
     );
 }

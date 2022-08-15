@@ -1,27 +1,48 @@
-import { createStore } from "redux";
-import { loadState, saveState } from "../localStorage";
+import { loadState, saveState } from "../utils/localStorage";
 import rootReducer from "./reducers";
 import throttle from "lodash/throttle";
+import { configureStore } from "@reduxjs/toolkit";
 
-const configStore = () => {
+const store = () => {
     const persistantState = loadState();
-    const store = createStore(
-        rootReducer,
+    const defaultStore = configureStore({
+        reducer: rootReducer,
         persistantState,
-        window.__REDUX_DEVTOOLS_EXTENSION__ &&
-            window.__REDUX_DEVTOOLS_EXTENSION__()
-    );
-    store.subscribe(
+        devTools: process.env.NODE_ENV !== "production",
+    });
+    defaultStore.subscribe(
         throttle(() => {
             saveState({
-                todos: store.getState().todos,
-                chart: store.getState().chart,
-                alarm: store.getState().alarm,
-                timer: store.getState().timer,
+                todos: defaultStore.getState().todos,
+                chart: defaultStore.getState().chart,
+                alarm: defaultStore.getState().alarm,
+                timer: defaultStore.getState().timer,
             });
         }, 1000)
     );
-    return store;
+    return defaultStore;
 };
 
-export default configStore;
+// const configStore = () => {
+//     const persistantState = loadState();
+//     const store = createStore(
+//         rootReducer,
+//         persistantState,
+//         window.__REDUX_DEVTOOLS_EXTENSION__ &&
+//             window.__REDUX_DEVTOOLS_EXTENSION__()
+//     );
+//     store.subscribe(
+//         throttle(() => {
+//             saveState({
+//                 todos: store.getState().todos,
+//                 chart: store.getState().chart,
+//                 alarm: store.getState().alarm,
+//                 timer: store.getState().timer,
+//             });
+//         }, 1000)
+//     );
+//     return store;
+// };
+
+// export default configStore;
+export default store;
