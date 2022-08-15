@@ -52,7 +52,6 @@ const TomatoSlot = styled.span`
         }
     }}
 `;
-
 const TomatoCount = ({ fill }) => {
     const timer = useSelector(selectorTimer);
     return (

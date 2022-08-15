@@ -58,6 +58,5 @@ export default memo(CheckButton, (prevProps, nextProps) => {
 CheckButton.propTypes = {
     isCompeleted: PropTypes.bool,
     id: PropTypes.string,
-    initialTimer: PropTypes.func,
     createdAt: PropTypes.string,
 };

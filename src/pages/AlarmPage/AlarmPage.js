@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { Alarmoption, Page } from "@components";
+
 import { useDispatch, useSelector } from "react-redux";
 import { selectorAlarm } from "@redux/selector";
 import { hasAlarm, setAlarm } from "@reducers/alarm";
@@ -9,6 +9,12 @@ import useMediaQuery from "@Hooks/useMediaQuery";
 import { br } from "@constants/device";
 import { RESTMODE, TASKMODE } from "@constants/constants";
 import alarmPackage from "../../data/sound.json";
+
+import { Page } from "../../Layout";
+import Alarmoption from "./Alarmoption";
+import { useAudio } from "@Hooks/useAudio";
+import AudioController from "@components/Audio/AudioController";
+import { toggleStatus } from "@redux/reducers/alarm/slice";
 
 const SwitchWrapper = styled.div`
     box-sizing: border-box;
@@ -73,103 +79,68 @@ const StyleBody = styled(Page.SubBody)`
     padding: 0 1em;
 `;
 
-const AlarmPage = () => {
+// 這裡直接取就好
+const AlarmPage = ({ setCurrentPlay, setTimesupPlay }) => {
     const alarm = useSelector(selectorAlarm);
-
-    const [taskAlarm, setTaskAlarm] = useState(alarm.alarmType.task);
-    const [restAlarm, setRestAlarm] = useState(alarm.alarmType.rest);
 
     const dispatch = useDispatch();
     const isMd = useMediaQuery(br.md);
-
-    const audioref = useRef();
-    const handleChange = (group, id, cb) => {
-        dispatch(setAlarm(group, id));
-        audioref.current.src =
-            process.env.PUBLIC_URL + alarmPackage.find((_, i) => id === i).path;
-        if (alarm.HasAlarm && !alarm.alarmrang) {
-            audioref.current.load();
-            audioref.current.play();
-        }
-        cb(id);
-    };
-
+    // hadAlarm 太多要減少
     return (
         <Page>
             {isMd && <Page.Header $bg={theme.primary.Tint} />}
             <SwitcherBody>
                 <SwitchWrapper>
-                    <Title alarmstatus={alarm.HasAlarm}>鬧鐘提醒</Title>
+                    <Title alarmstatus={alarm.hadAlarm}>鬧鐘提醒</Title>
                     <Switcher
                         id="alarmswitch"
                         type="checkbox"
-                        defaultChecked={alarm.HasAlarm}
+                        defaultChecked={alarm.hadAlarm}
                         onChange={() => {
-                            dispatch(hasAlarm(!alarm.HasAlarm));
+                            dispatch(toggleStatus());
+                            setCurrentPlay(null);
+                            setTimesupPlay(null);
                         }}
                     />
                     <SwitchTrack htmlFor="alarmswitch" />
                 </SwitchWrapper>
             </SwitcherBody>
             <StyleBody>
-                <Title alarmstatus={alarm.HasAlarm}>工作結束鬧鐘</Title>
+                <Title alarmstatus={alarm.hadAlarm}>工作結束鬧鐘</Title>
                 <RadioGroup>
-                    {alarmPackage.map(({ name, path }, i) => {
-                        if (i === taskAlarm)
-                            return (
-                                <Alarmoption
-                                    key={TASKMODE + i}
-                                    group={TASKMODE}
-                                    index={i}
-                                    content={name}
-                                    handleChange={handleChange}
-                                    stateSetter={setTaskAlarm}
-                                    $fill
-                                />
-                            );
+                    {alarmPackage.data.map(({ name }, i) => {
                         return (
                             <Alarmoption
-                                key={TASKMODE + i}
+                                key={name}
                                 group={TASKMODE}
                                 index={i}
                                 content={name}
-                                handleChange={handleChange}
-                                callback={setTaskAlarm}
+                                $fill={i === alarm.type[TASKMODE]}
+                                setCurrentPlay={setCurrentPlay}
+                                setTimesupPlay={setTimesupPlay}
                             />
                         );
                     })}
                 </RadioGroup>
             </StyleBody>
             <StyleBody>
-                <Title alarmstatus={alarm.HasAlarm}>休息結束鬧鐘</Title>
+                <Title alarmstatus={alarm.hadAlarm}>休息結束鬧鐘</Title>
                 <RadioGroup>
-                    {alarmPackage.map(({ name }, i) => {
-                        if (i === restAlarm)
-                            return (
-                                <Alarmoption
-                                    key={RESTMODE + i}
-                                    group={RESTMODE}
-                                    index={i}
-                                    content={name}
-                                    handleChange={handleChange}
-                                    callback={setRestAlarm}
-                                    $fill
-                                />
-                            );
+                    {alarmPackage.data.map(({ name }, i) => {
                         return (
                             <Alarmoption
-                                key={RESTMODE + i}
+                                key={name}
                                 group={RESTMODE}
                                 index={i}
                                 content={name}
-                                handleChange={handleChange}
-                                callback={setRestAlarm}
+                                $fill={i === alarm.type[RESTMODE]}
+                                setCurrentPlay={setCurrentPlay}
+                                setTimesupPlay={setTimesupPlay}
                             />
                         );
                     })}
                 </RadioGroup>
             </StyleBody>
-            <audio ref={audioref} />
         </Page>
     );
 };

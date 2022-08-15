@@ -38,6 +38,8 @@ function TimerButtons({
     timermode,
     timerstatus,
     timertomatonum,
+    setTimesupPlay,
+    setCurrentPlay,
 }) {
     const { setModalName } = useModal();
     const dispatch = useDispatch();
@@ -60,7 +62,8 @@ function TimerButtons({
             return;
         }
         dispatch(switchTimer());
-        // audioref.current.src = null;
+        setTimesupPlay(null);
+        setCurrentPlay(null);
     };
 
     return (

@@ -42,6 +42,7 @@ const ItemWrapper = styled.li`
 const Header = styled.span`
     display: flex;
     align-items: center;
+    align-self: stretch;
 `;
 const Body = styled.div`
     flex-grow: 1;
@@ -49,12 +50,27 @@ const Body = styled.div`
 
     justify-content: flex-start;
 `;
-const Content = styled.p`
-    position: relative;
+const Content = styled.textarea`
     margin: 0;
     padding: 0 0.4em;
     display: flex;
     word-break: break-word;
+    height: ${({ $height }) => $height}px;
+    box-sizing: border-box;
+    width: 100%;
+    resize: none;
+    outline: none;
+    border: none;
+    font-size: 1em;
+    overflow: hidden;
+    font-family: "Noto Sans TC", sans-serif;
+    cursor: default;
+    ${({ $isEdit, theme }) =>
+        $isEdit &&
+        `
+            border: 1px solid ${theme.primary.Default};
+            cursor: text;
+    `}
 `;
 const Edit = styled.textarea`
     box-sizing: border-box;

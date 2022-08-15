@@ -16,7 +16,7 @@ const todoSlice = createSlice({
     reducers: {
         addTodo: {
             reducer: (state, action) => {
-                state.todos.push({
+                state.todos.unshift({
                     id: v4(),
                     content: action.payload.content,
                     isCompeleted: false,
@@ -24,9 +24,7 @@ const todoSlice = createSlice({
                     createdAt: today,
                 });
             },
-            prepare: (content, tomato) => {
-                return { payload: { content, tomato } };
-            },
+            prepare: (content, tomato) => ({ payload: { content, tomato } }),
         },
         toggleTodo: {
             reducer: (state, action) => {
@@ -34,11 +32,10 @@ const todoSlice = createSlice({
                     if (todo.id === action.payload.id) {
                         todo.isCompeleted = !todo.isCompeleted;
                     }
+                    return;
                 });
             },
-            prepare: (id) => {
-                return { payload: { id } };
-            },
+            prepare: (id) => ({ payload: { id } }),
         },
         deleTodo: {
             reducer: (state, action) => {
@@ -46,30 +43,49 @@ const todoSlice = createSlice({
                     (todo) => todo.id !== action.payload.id
                 );
             },
-            prepare: (id) => {
-                return { payload: { id } };
-            },
+            prepare: (id) => ({ payload: { id } }),
         },
         updateTodoDate: {
             reducer: (state, action) => {
-                state.todos = state.todos.map((todo) =>
-                    todo.id === action.payload.id
-                        ? {
-                              ...todo,
-                              createdAt: today,
-                          }
-                        : todo
-                );
+                state.todos.forEach((todo) => {
+                    if (todo.id === action.payload.id) {
+                        todo.createdAt = today;
+                    }
+                });
             },
-            prepare: (id) => {
-                return { payload: { id } };
-            },
+            prepare: (id) => ({ payload: { id } }),
         },
-        // editingTodo: {},
-        // orderTodo: {
-        //     reducer:
-        //     prepare:
-        // },
+        editingTodo: {
+            reducer: (state, action) => {
+                state.nowEditing = action.payload.id;
+            },
+            prepare: (id = null) => ({ payload: { id } }),
+        },
+        updateTodoContent: {
+            reducer: (state, action) => {
+                state.todos.forEach((todo) => {
+                    if (todo.id === action.payload.id) {
+                        todo.content = action.payload.content;
+                    }
+                });
+                state.nowEditing = null;
+            },
+            prepare: (id, content) => ({ payload: { id, content } }),
+        },
+        orderTodo: {
+            reducer: (state, action) => {
+                [
+                    state.todos[action.payload.order],
+                    state.todos[action.payload.changedOreder],
+                ] = [
+                    state.todos[action.payload.changedOreder],
+                    state.todos[action.payload.order],
+                ];
+            },
+            prepare: (order, changedOreder) => ({
+                payload: { order, changedOreder },
+            }),
+        },
     },
     // extraReducers: {},
 });
@@ -134,6 +150,13 @@ export function finishTodo() {
     };
 }
 
-export const { addTodo, toggleTodo, deleTodo, updateTodoDate } =
-    todoSlice.actions;
+export const {
+    addTodo,
+    toggleTodo,
+    deleTodo,
+    updateTodoDate,
+    editingTodo,
+    updateTodoContent,
+    orderTodo,
+} = todoSlice.actions;
 export default todoSlice.reducer;

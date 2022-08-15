@@ -1,6 +1,6 @@
 import { dataTypes, Tabs, Description } from "./type";
 import moment from "moment";
-import zhTW from "../../format/zhtw";
+import zhTW from "../../utils/format/zhtw";
 
 moment.locale("zh-tw", zhTW);
 export const today = moment().format("YYYY-MM-DD");

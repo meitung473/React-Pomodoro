@@ -1,21 +1,15 @@
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-
-import { selectorTimer } from "@redux/selector";
-
+import { selectorAlarm, selectorTimer } from "@redux/selector";
 import { br } from "@constants/device";
-
 import useInterval from "@Hooks/useInterval";
-import useAlarm from "@Hooks/useAlarm";
-
-import { TomatoCount, Clock } from "@components";
-
 import { CIRCLEFACE } from "@constants/constants";
-
 import { ModalProvider } from "@components/Modal/ModalcontextPackage";
 import TimerButtons from "./TimerButtons";
 import { nextRound, updateCurrentTime } from "@redux/reducers/timer/slice";
 import { useEffect, useState } from "react";
+import Clock from "./Clock";
+import TomatoCount from "./TomatoCount";
 
 const TimerContainer = styled.main`
     display: flex;
@@ -34,33 +28,42 @@ const TimerControll = styled.div`
         max-width: 500px;
     }
 `;
-const Timer = () => {
-    const timer = useSelector(selectorTimer);
+
+const Timer = ({ setTimesupPlay, setCurrentPlay }) => {
+    const {
+        timermode,
+        currentOnTaskId,
+        cachecurrentTime,
+        timerstatus,
+        timertomatonum,
+    } = useSelector(selectorTimer);
     const dispatch = useDispatch();
-    const { Playalarm, audioref } = useAlarm();
+    const alarm = useSelector(selectorAlarm);
     const [currentLine, setCurrentLine] = useState(CIRCLEFACE);
-    // useEffect(() => {
-    //     if (!audioref.current.src) {
-    //         dispatch(toggleAlarm(false));
-    //     }
-    // }, [audioref, dispatch]);
+
+    /**
+     * 切換模式 與 換專注的 taskId 都要復原
+     */
     useEffect(() => {
         setCurrentLine(CIRCLEFACE);
-    }, [timer.timermode]);
+    }, [timermode, currentOnTaskId, setTimesupPlay]);
+
     useInterval(
         () => {
-            if (timer.cachecurrentTime <= 0) {
-                setCurrentLine(CIRCLEFACE);
+            if (cachecurrentTime <= 0) {
+                if (alarm.hadAlarm) {
+                    setTimesupPlay(alarm.type[timermode]);
+                    setCurrentPlay(null);
+                }
                 dispatch(nextRound());
-                // Playalarm();
                 return;
             }
             setCurrentLine((prev) => {
-                return prev - prev / timer.cachecurrentTime;
+                return prev - prev / cachecurrentTime;
             });
             dispatch(updateCurrentTime());
         },
-        timer.timerstatus ? 1000 : null
+        timerstatus ? 1000 : null
     );
 
     return (
@@ -69,25 +72,20 @@ const Timer = () => {
                 <Clock currentLine={currentLine} />
                 <ModalProvider>
                     <TimerButtons
-                        currentOnTaskId={timer.currentOnTaskId}
-                        timermode={timer.timermode}
-                        timerstatus={timer.timerstatus}
-                        timertomatonum={timer.timertomatonum}
+                        currentOnTaskId={currentOnTaskId}
+                        timermode={timermode}
+                        timerstatus={timerstatus}
+                        timertomatonum={timertomatonum}
+                        setTimesupPlay={setTimesupPlay}
+                        setCurrentPlay={setCurrentPlay}
                     />
                 </ModalProvider>
             </TimerControll>
             <TomatoCount
                 fill={
-                    timer.currentOnTaskId
-                        ? timer.timertomatonum[timer?.timermode || "task"]
-                        : -1
+                    currentOnTaskId ? timertomatonum[timermode || "task"] : -1
                 }
             />
-
-            {/* <audio
-                ref={audioref}
-                onEnded={() => dispatch(toggleAlarm(false))}
-            /> */}
         </TimerContainer>
     );
 };

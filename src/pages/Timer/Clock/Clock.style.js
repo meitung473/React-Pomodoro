@@ -67,3 +67,5 @@ const Clockface = styled.g`
         }
     }
 `;
+
+export { SVGComponent, StyleGroup, Clockface, ClockText, RectShape };
